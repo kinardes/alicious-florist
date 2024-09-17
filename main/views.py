@@ -1,10 +1,43 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.core import serializers
+from django.shortcuts import render, redirect   # Tambahkan import redirect di baris ini
+from main.forms import ShopForm
+from main.models import Shop
 
 def show_main(request):
+    flower_entries = Shop.objects.all()
+
     context = {
-        'npm' : '2306245642',
         'name': 'Alica Kinar Deska',
-        'class': 'PBP A'
+        'class': 'PBP A',
+        'npm': '2306245642',
+        'flower_entries': flower_entries
     }
 
     return render(request, "main.html", context)
+
+def create_flower(request):
+    form = ShopForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return redirect('main:show_main')
+
+    context = {'form': form}
+    return render(request, "create_flower.html", context)
+
+def show_xml(request):
+    data = Shop.objects.all()
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+def show_json(request):
+    data = Shop.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def show_xml_by_id(request, id):
+    data = Shop.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+def show_json_by_id(request, id):
+    data = Shop.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")

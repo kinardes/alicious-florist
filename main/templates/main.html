@@ -1,8 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
 <h1>Alicious Florist</h1>
-
 <h5>NPM: </h5>
 <p>{{ npm }}<p>
-<h5>Name: </h5>
-<p>{{ name }}<p>
-<h5>Class: </h5>
-<p>{{ class }}<p>
+
+<h5>Name:</h5>
+<p>{{ name }}</p>
+
+<h5>Class:</h5>
+<p>{{ class }}</p>
+
+{% if not flower_entries %}
+<p>Belum ada data pada Alicious Florist.</p>
+{% else %}
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Description</th>
+    <th>Flower</th>
+    <th>Quantity</th>
+  </tr>
+
+  {% comment %} Berikut cara memperlihatkan data mood di bawah baris ini 
+  {% endcomment %} 
+  {% for flower_entry in flower_entries %}
+  <tr>
+    <td>{{flower_entry.name}}</td>
+    <td>{{flower_entry.price}}</td>
+    <td>{{flower_entry.description}}</td>
+    <td>{{flower_entry.flower}}</td>
+    <td>{{flower_entry.quantity}}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<br />
+
+<a href="{% url 'main:create_flower' %}">
+  <button>Add New Flower Entry</button>
+</a>
+{% endblock content %}
