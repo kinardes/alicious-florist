@@ -1,4 +1,4 @@
-TUGAS 2 ☆*: .｡. o(≧▽≦)o .｡.:*☆
+TUGAS 2 ☆*: .｡. o(≧▽≦)o .｡.:*☆ 
 
 LINK PWS : http://alica-kinar-aliciousflorist.pbp.cs.ui.ac.id/ 
 
