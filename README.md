@@ -70,6 +70,49 @@ CSRF (Cross-Site Request Forgery) token diperlukan pada form di Django untuk mel
 
 Screenshot Postman https://drive.google.com/drive/folders/1vOK4n4F3WPT17B6r80q7PbYnxnNEqHdI?usp=sharing 
 
+TUGAS 4 ☆*: .｡. o(≧▽≦)o .｡.:*☆
 
+1. Apa perbedaan antara HttpResponseRedirect() dan redirect()?
+HttpResponseRedirect() adalah salah satu kelas di Django yang digunakan untuk mengarahkan user ke URL tertentu dengan mengembalikan respon HTTP 302. Saat menggunakannya, kita harus memasukkan URL tujuan secara eksplisit dalam bentuk string. Sementara itu, redirect() adalah shortcut yang lebih fleksibel dan mudah digunakan. Fungsi ini akan mengalihkan baik URL secara langsung, nama dari suatu view, atau bahkan objek yang ada dalam database. Jika diberikan nama view, redirect() akan otomatis memanggil fungsi reverse() untuk menghasilkan URL yang sesuai, sehingga memudahkan pengelolaan routing.
+Referensi: https://www.hostinger.co.id/tutorial/error-302-found 
 
+2. Jelaskan cara kerja penghubungan model Product dengan User!
+Pada Django, dapat digunakan ForeignKey untuk menghubungkan model Product dengan User. ForeignKey memungkinkan satu pengguna bisa memiliki banyak entry produk (One to Many). Sebagai contoh, dapat dilakukan ForeignKey dengan kode di bawah ini:
+from django.contrib.auth.models import User
+class Product(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+Dalam contoh ini, setiap produk memiliki pengguna, dan jika pengguna dihapus, semua produk yang terkait juga akan dihapus (on_delete=models.CASCADE).
 
+3. Apa perbedaan antara authentication dan authorization, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
+Authentication adalah proses memverifikasi identitas pengguna, yaitu memastikan bahwa pengguna adalah orang yang mereka klaim. Proses ini dilakukan melalui username dan password saat login. Di sisi lain, authorization adalah proses memberikan akses atau izin kepada pengguna yang sudah terautentikasi untuk melakukan tindakan tertentu, seperti mengakses halaman tertentu atau melakukan aksi administratif. Ketika pengguna login, Django pertama-tama melakukan authentication dengan memverifikasi kredensial yang diberikan. Setelah itu, sistem Django dapat menentukan authorization untuk pengguna tersebut berdasarkan izin yang dimiliki oleh pengguna terkait. Django mengimplementasikan authentication menggunakan middleware bawaan, django.contrib.auth, yang menangani login, logout, dan session pengguna. Authorization dalam Django diterapkan dengan sistem izin yang mengontrol akses ke objek atau bagian dari aplikasi berdasarkan peran pengguna.
+
+4. Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari cookies dan apakah semua cookies aman digunakan?
+Django mengingat pengguna yang telah login dengan menggunakan session dan cookies. Saat pengguna berhasil login, Django membuat session baru yang disimpan di server, dan menempatkan session ID di dalam cookie yang dikirim ke browser pengguna. Setiap kali pengguna mengirimkan request, session ID dari cookie ini dikirim kembali ke server, memungkinkan Django untuk mengidentifikasi pengguna. Cookies memiliki banyak kegunaan lain, seperti menyimpan preferensi pengguna, menyimpan data temporary, atau melacak aktivitas pengguna di berbagai halaman. Namun, tidak semua cookies aman digunakan. Beberapa cookies, seperti cookies yang menyimpan informasi sensitif (misalnya, session ID), perlu dienkripsi atau diberi flag HttpOnly untuk mencegah akses dari JavaScript, dan flag Secure untuk memastikan cookies hanya dikirim melalui HTTPS.
+Referensi: https://www.ilmuhacking.com/web-security/protecting-cookie-from-xss-using-httponly-secure-flag/ 
+
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di bawah secara step-by-step (bukan hanya sekadar mengikuti tutorial):
+Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna untuk mengakses aplikasi sebelumnya dengan lancar:
+-	Pertama-tama, saya mengaktifkan environment (env) proyek.
+-	Di views.py, saya mengimpor modul yang dibutuhkan. Setelah itu, dibuat fungsi register(), login(), dan logout() yang akan menangani proses autentikasi pengguna.
+-	Buat template baru seperti register.html dan login.html dalam direktori templates.
+-	Di urls.py, saya menambah path untuk mengarahkan rute registrasi, login, dan logout.
+-	Menggunakan decorator @login_required di halaman yang membutuhkan login sebelum diakses, misalnya halaman belanja atau profil.
+Membuat dua akun pengguna dengan masing-masing tiga dummy data menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal:
+-	Mengaktifkan environment proyek (env) dan jalankan server lokal menggunakan python manage.py runserver.
+-	Buka browser di http://localhost:8000/ untuk mengakses aplikasi.
+-	Melakukan registrasi untuk dua akun pengguna yang berbeda dan login ke masing-masing akun.
+-	Setelah login, membuat data dummy untuk setiap akun yang akan digunakan dalam aplikasi.
+Menghubungkan model Product dengan User:
+-	Di file models.py, saya mengimpor model User dari Django.
+-	Menambahkan ForeignKey pada model Product, yang akan menghubungkan setiap produk ke pengguna yang membuatnya. Kodenya kurang lebih user = models.ForeignKey(User, on_delete=models.CASCADE)
+-	Saat menyimpan produk, saya menggunakan request.user untuk memastikan produk tersebut terhubung ke pengguna yang sedang login.
+-	Untuk menampilkan produk sesuai dengan pengguna yang login, digunakan filter products = Product.objects.filter(user=request.user)
+-	Setelah selesai, dilakukan migrasi untuk menerapkan perubahan pada database (python manage.py makemigrations dan python manage.py migrate).
+Menampilkan detail informasi pengguna yang sedang logged in seperti username dan menerapkan cookies seperti last login pada halaman utama aplikasi:
+-	Di views.py, ditambahkan logika untuk menyimpan informasi waktu login terakhir (last login) ke dalam cookie.
+-	Pada fungsi login(), set cookie dengan waktu login saat ini dengan kode response.set_cookie('last_login', str(datetime.datetime.now()))
+-   Pada fungsi show_main(), ditambahkan konteks last_login agar bisa ditampilkan di template.
+-	Pada saat logout, dipastikan untuk menghapus cookie last_login dengan response.delete_cookie('last_login').
+-	Di template main.html, ditampilkan informasi username dan waktu login terakhir dengan memanfaatkan data dari cookie.
