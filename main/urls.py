@@ -3,6 +3,8 @@ from main.views import show_main, create_flower, show_xml, show_json, show_xml_b
 from main.views import register
 from main.views import login_user
 from main.views import logout_user
+from main.views import edit_flower
+from main.views import delete_flower
 
 app_name = 'main'
 
@@ -16,4 +18,6 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),
+    path('edit-flower/<uuid:id>', edit_flower, name='edit_flower'),
+    path('delete/<uuid:id>', delete_flower, name='delete_flower'), # sesuaikan dengan nama fungsi yang dibuat
 ]

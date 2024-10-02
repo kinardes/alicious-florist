@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.http import HttpResponse
 from django.core import serializers
-from django.shortcuts import render, redirect   # Tambahkan import redirect di baris ini
+from django.shortcuts import render, redirect, reverse   # Tambahkan import redirect di baris ini
 from main.forms import ShopForm
 from main.models import Shop
 
@@ -88,3 +88,26 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
+def edit_flower(request, id):
+    # Get flower entry berdasarkan id
+    flower = Shop.objects.get(pk = id)
+
+    # Set flower entry sebagai instance dari form
+    form = ShopForm(request.POST or None, instance=flower)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_flower.html", context)
+
+def delete_flower(request, id):
+    # Get flower berdasarkan id
+    flower = Shop.objects.get(pk = id)
+    # Hapus flower
+    flower.delete()
+    # Kembali ke halaman awal
+    return HttpResponseRedirect(reverse('main:show_main'))

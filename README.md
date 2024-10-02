@@ -116,3 +116,41 @@ Menampilkan detail informasi pengguna yang sedang logged in seperti username dan
 -   Pada fungsi show_main(), ditambahkan konteks last_login agar bisa ditampilkan di template.
 -	Pada saat logout, dipastikan untuk menghapus cookie last_login dengan response.delete_cookie('last_login').
 -	Di template main.html, ditampilkan informasi username dan waktu login terakhir dengan memanfaatkan data dari cookie.
+
+TUGAS 5 ☆*: .｡. o(≧▽≦)o .｡.:*☆
+
+1.  Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut! 
+Urutan prioritas CSS selectors dikenal dengan istilah CSS specificity. Prioritas pengambilan CSS selector bekerja berdasarkan aturan berikut:
+- Inline styles (gaya yang dituliskan langsung pada elemen HTML) memiliki prioritas tertinggi.
+- ID selectors (#id) memiliki prioritas lebih tinggi dibandingkan class, attribute, atau elemen.
+- Class selectors (.class), attribute selectors ([attribute]), dan pseudo-class selectors (:hover, :focus) memiliki prioritas yang lebih rendah dibandingkan ID.
+- Tag selectors (seperti div, p, h1) dan pseudo-elements (::before, ::after) memiliki prioritas terendah.
+Jika beberapa selector memiliki tingkat prioritas yang sama, selector yang didefinisikan terakhir akan diprioritaskan.
+
+2. Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design! 
+Responsive design penting untuk memastikan aplikasi web terlihat baik dan berfungsi dengan baik di berbagai perangkat dan ukuran layar. Dengan meningkatnya penggunaan perangkat mobile, aplikasi harus bisa menyesuaikan tampilannya dari layar desktop besar hingga layar ponsel kecil. 
+Contoh aplikasi yang menerapkan responsive design:
+- YouTube: Tampilan halaman menyesuaikan ukuran layar, mulai dari desktop hingga mobile, dengan tata letak dan navigasi yang berubah sesuai ukuran layar.
+Contoh aplikasi yang belum menerapkan responsive design:
+- Aplikasi legacy (lama) atau situs-situs web yang dibangun sebelum era mobile-first seperti beberapa situs universitas atau institusi yang belum di-update, yang hanya nyaman dilihat di layar desktop.
+
+3. Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut! 
+- Margin: Jarak antara elemen dengan elemen di sekitarnya (ruang di luar border). Margin mengontrol ruang luar suatu elemen.
+- Border: Garis yang mengelilingi konten dan padding elemen. Border bisa berupa garis solid, dotted, atau tipe lainnya, dan mengelilingi padding serta konten.
+- Padding: Jarak antara konten elemen dengan border-nya (ruang di dalam border). Padding memberikan ruang di dalam elemen di antara konten dan border.
+
+4. Jelaskan konsep flex box dan grid layout beserta kegunaannya! 
+- Flexbox: Sebuah layout model yang digunakan untuk menyusun elemen dalam baris atau kolom dengan kemampuan untuk menyesuaikan ukuran elemen secara fleksibel. Cocok digunakan untuk tata letak yang membutuhkan pengaturan elemen secara sebaris atau sebaris-baris dengan mudah. 
+- Grid Layout: Sebuah sistem layout dua dimensi yang memungkinkan pengaturan elemen dalam baris dan kolom secara bersamaan. Cocok digunakan untuk tata letak yang lebih kompleks. 
+
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+- Menambahkan route untuk delete dan edit di dalam file routes.
+- Memuat controller atau view function yang akan meng-handle penghapusan dan pengeditan produk pada backend.
+- Menambahkan form atau tombol di setiap card produk untuk memanggil fungsi hapus atau edit (misalnya dengan menambahkan method="POST").
+- Memuat template HTML untuk setiap halaman dan gunakan Tailwind CSS untuk styling.
+- Menyesuaikan elemen form (seperti input dan button) sesuai preferensi.
+- Membuat card menggunakan Tailwind dengan class seperti shadow-lg, p-4, rounded-md, bg-pink.
+- Untuk produk yang belum ada, gunakan conditional rendering di template untuk menampilkan pesan "belum ada produk".
+- Untuk produk yang sudah ada, buatlah card yang menampilkan detail produk dengan tombol edit dan delete yang mengarah ke fungsionalitas yang telah diimplementasikan.
+- Menggunakan Tailwind utility classes untuk membuat navbar yang responsive (flex, justify-between, items-center).
+- Menambahkan media query atau class Tailwind seperti md:flex untuk mengatur tampilan di layar mobile dan desktop.
