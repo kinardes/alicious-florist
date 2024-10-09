@@ -5,6 +5,7 @@ from main.views import login_user
 from main.views import logout_user
 from main.views import edit_flower
 from main.views import delete_flower
+from main.views import add_flower_entry_ajax
 
 app_name = 'main'
 
@@ -20,4 +21,5 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path('edit-flower/<uuid:id>', edit_flower, name='edit_flower'),
     path('delete/<uuid:id>', delete_flower, name='delete_flower'), # sesuaikan dengan nama fungsi yang dibuat
+    path('create-flower-entry-ajax', add_flower_entry_ajax, name='add_flower_entry_ajax'),
 ]

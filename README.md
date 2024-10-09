@@ -154,3 +154,43 @@ Contoh aplikasi yang belum menerapkan responsive design:
 - Untuk produk yang sudah ada, buatlah card yang menampilkan detail produk dengan tombol edit dan delete yang mengarah ke fungsionalitas yang telah diimplementasikan.
 - Menggunakan Tailwind utility classes untuk membuat navbar yang responsive (flex, justify-between, items-center).
 - Menambahkan media query atau class Tailwind seperti md:flex untuk mengatur tampilan di layar mobile dan desktop.
+
+TUGAS 6 ☆*: .｡. o(≧▽≦)o .｡.:*☆
+
+1. Jelaskan manfaat dari penggunaan JavaScript dalam pengembangan aplikasi web! 
+- Interaktivitas
+JavaScript memungkinkan pembuatan halaman web yang lebih interaktif, seperti perubahan dinamis pada halaman tanpa harus melakukan refresh.
+- Client-side Processing
+Dapat menangani tugas-tugas di sisi klien seperti validasi form, manipulasi DOM, dan animasi, yang mengurangi beban server.
+- Asynchronous Processing
+Dengan teknik seperti AJAX, JavaScript memungkinkan pengambilan data secara asinkron, sehingga konten dapat di-update secara real-time tanpa memuat ulang seluruh halaman.
+- Integrasi API
+JavaScript dapat berkomunikasi dengan API eksternal atau server untuk mengambil dan menampilkan data secara langsung.
+
+2. Jelaskan fungsi dari penggunaan await ketika kita menggunakan fetch()! Apa yang akan terjadi jika kita tidak menggunakan await? 
+await digunakan untuk menunggu penyelesaian dari promise yang direturn oleh fetch(). Kode ini bersifat sinkron secara tampilan, meskipun di bawahnya bekerja secara asinkron. Dengan await, kita bisa menunggu respons dari server sebelum melanjutkan ke baris kode berikutnya.
+Jika kita tidak menggunakan await, kode akan terus berjalan tanpa menunggu hasil dari fetch(), sehingga respons dari server mungkin belum selesai diproses ketika kita mencoba menggunakan hasilnya. Hal ini bisa menyebabkan error karena data yang diharapkan belum tersedia.
+
+3. Mengapa kita perlu menggunakan decorator csrf_exempt pada view yang akan digunakan untuk AJAX POST?
+CSRF (Cross-Site Request Forgery) adalah serangan di mana penyerang memaksa pengguna yang sudah terautentikasi untuk mengirimkan permintaan HTTP yang tidak diinginkan. Django secara default memeriksa CSRF token untuk setiap permintaan POST. Pada view yang digunakan untuk AJAX POST, kadang-kadang kita menonaktifkan pengecekan CSRF menggunakan decorator csrf_exempt agar permintaan AJAX dapat diproses tanpa memerlukan token CSRF. Namun, ini perlu digunakan dengan hati-hati karena bisa membuka celah keamanan.
+
+4. Pada tutorial PBP minggu ini, pembersihan data input pengguna dilakukan di belakang (backend) juga. Mengapa hal tersebut tidak dilakukan di frontend saja?
+Dari sisi keamanan, validasi dan pembersihan data di frontend saja tidak cukup karena data masih bisa dimanipulasi sebelum dikirim ke server. Melakukan validasi di backend memastikan bahwa data yang masuk ke sistem aman dari serangan seperti SQL Injection atau XSS (Cross-Site Scripting). Dari sisi reliabilitas, tidak semua pengguna mengaktifkan JavaScript di browser mereka. Dengan validasi di backend, kita memastikan bahwa aplikasi tetap berjalan dengan benar tanpa bergantung sepenuhnya pada frontend. 
+
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+- Mengubah tugas 5 ke AJAX
+Saya memulai dengan mengidentifikasi komponen yang perlu diubah menjadi berbasis AJAX, seperti form input dan data produk yang akan dikirim ke backend.
+
+- AJAX GET untuk Data Produk
+Saya modifikasi kode yang menampilkan data produk menjadi mendukung AJAX GET. Saya menyiapkan sebuah endpoint khusus untuk mengembalikan data dalam format JSON.
+Pada sisi frontend, saya menggunakan JavaScript untuk melakukan request ke endpoint ini dan menampilkan data mood hanya untuk pengguna yang sedang logged in.
+
+- AJAX POST untuk Menambah Produk
+Saya membuat tombol di halaman utama yang membuka modal dengan form untuk menambah produk baru. Modal diatur agar muncul ketika tombol ditekan menggunakan event listener JavaScript. Setelah form diisi dan submit, saya melakukan request POST ke path /create-ajax/ untuk menambahkan mood ke basis data. Jika permintaan POST berhasil, modal akan ditutup secara otomatis dan form akan direset. Jika gagal, pesan error akan ditampilkan di dalam modal.
+
+- Fungsi view untuk Menambah Produk
+Saya membuat view di backend yang menerima permintaan POST untuk menambah produk, dengan melakukan pengecekan bahwa pengguna telah login dan data yang diterima valid.
+View ini terhubung dengan path /create-ajax/.
+
+- Refresh Data Asinkronus
+Setelah produk berhasil ditambahkan, saya melakukan refresh pada bagian daftar mood menggunakan AJAX GET, tanpa harus melakukan reload pada seluruh halaman. Sehingga aplikasi lebih responsif dan dinamis.
