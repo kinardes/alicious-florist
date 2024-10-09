@@ -119,11 +119,15 @@ def delete_flower(request, id):
 @require_POST
 def add_flower_entry_ajax(request):
     name = strip_tags(request.POST.get("name")) # strip HTML tags!
+    price = strip_tags(request.POST.get("price")) # strip HTML tags!
+    description = strip_tags(request.POST.get("description")) # strip HTML tags!
     flower = strip_tags(request.POST.get("flower")) # strip HTML tags!
     quantity = request.POST.get("quantity")
 
     new_flower = Shop(
         name=name, 
+        price=price,
+        description=description,
         flower=flower,
         quantity=quantity
     )

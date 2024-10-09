@@ -66,11 +66,19 @@
             <input type="text" id="name" name="name" class="mt-1 block w-full border border-pink-300 rounded-md p-2 hover:border-pink-700" placeholder="Please enter your name, love" required>
           </div>
           <div class="mb-4">
+            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+            <input type="number" id="price" name="price" class="mt-1 block w-full border border-pink-300 rounded-md p-2 hover:border-pink-700" placeholder="Enter price" required>
+          </div>
+          <div class="mb-4">
+            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea id="text" id="name" name="name" class="mt-1 block w-full border border-pink-300 rounded-md p-2 hover:border-pink-700" placeholder="Enter description" required></textarea>
+          </div>
+          <div class="mb-4">
             <label for="flower" class="block text-sm font-medium text-gray-700">Flower</label>
             <input type="text" id="flower" name="flower" class="mt-1 block w-full border border-pink-300 rounded-md p-2 hover:border-pink-700" placeholder="What kind of flower do you want?" required>
           </div>
           <div class="mb-4">
-            <label for="quantity" class="block text-sm font-medium text-gray-700">Flower Quantity</label>
+            <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
             <input type="number" id="quantity" name="quantity" min="1" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-pink-700" placeholder="How much do you want?" required>
           </div>
         </form>
@@ -88,11 +96,11 @@
   function addShop() {
     fetch("{% url 'main:add_flower_entry_ajax' %}", {
       method: "POST",
-      body: new FormData(document.querySelector('#ShopForm')),
+      body: new FormData(document.querySelector('#shopForm')),
     })
     .then(response => refreshFlowerEntries())
 
-    document.getElementById("ShopForm").reset(); 
+    document.getElementById("shopForm").reset(); 
     document.querySelector("[data-modal-toggle='crudModal']").click();
 
     return false;
@@ -121,8 +129,12 @@
       else {
           classNameString = "columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 w-full"
           flowerEntries.forEach((item) => {
-                const flower = DOMPurify.sanitize(item.fields.flower);
+                const name = DOMPurify.sanitize(item.fields.name);
                 const price = DOMPurify.sanitize(item.fields.price);
+                const description = DOMPurify.sanitize(item.fields.description);
+                const flower = DOMPurify.sanitize(item.fields.flower);
+                const quantity = DOMPurify.sanitize(item.fields.quantity);
+                
                 htmlString += `
                 <div class="relative break-inside-avoid">
                     <div class="relative bg-pink-100 shadow-md rounded-lg mb-6 break-inside-avoid flex flex-col border-2 border-[#DB7093] transform rotate-1 hover:rotate-0 transition-transform duration-300">
@@ -175,7 +187,8 @@
       document.getElementById("flower_entry_cards").className = classNameString;
       document.getElementById("flower_entry_cards").innerHTML = htmlString;
   }
-  refreshFlowerEntries();
+
+refreshFlowerEntries();
   const modal = document.getElementById('crudModal');
   const modalContent = document.getElementById('crudModalContent');
 
@@ -204,7 +217,7 @@
 
   document.getElementById("cancelButton").addEventListener("click", hideModal);
   document.getElementById("closeModalBtn").addEventListener("click", hideModal);
-  document.getElementById("ShopForm").addEventListener("submit", (e) => {
+  document.getElementById("shopForm").addEventListener("submit", (e) => {
       e.preventDefault();
       addShop();
   })
