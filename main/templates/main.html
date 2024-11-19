@@ -32,6 +32,14 @@
     </div>
   </div>
 
+  <!-- Card Demo -->
+  <div class="grid place-items-center justify-center mb-6">
+    <div class="flex-col rounded-md items-center bg-[#FF69B4] py-3 px-4 w-fit">
+      <h1 class="text-white text-center">Judul Card</h1>
+      <img src="{% static 'image/logo-white.png' %}" alt="Gambar" class="card-image">
+      <p class="text-lg text-white-700 text-center">Halo aku adalah deskripsi card Demo PBP!</p>
+  </div>
+
   <!-- Add New Flower Entry Button -->
   <div class="grid place-items-center justify-center mb-14">
     <a href="{% url 'main:create_flower' %}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-1/2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 mb-4">
@@ -114,9 +122,10 @@
       document.getElementById("flower_entry_cards").innerHTML = "";
       document.getElementById("flower_entry_cards").className = "";
       const flowerEntries = await getFlowerEntries();
+      console.log(flowerEntries)
       let htmlString = "";
       let classNameString = "";
-
+ 
       if (flowerEntries.length === 0) {
           classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
           htmlString = `
@@ -212,7 +221,7 @@ refreshFlowerEntries();
 
       setTimeout(() => {
         modal.classList.add('hidden');
-      }, 150); 
+      }, 150);  
   }
 
   document.getElementById("cancelButton").addEventListener("click", hideModal);
@@ -221,5 +230,23 @@ refreshFlowerEntries();
       e.preventDefault();
       addShop();
   })
+
+
+  fetch('https:/aliciousflorist.com/data')
+    .then(response => {
+      console.log('Status:', response.status);
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Request failed, status: ${response.status}');
+        }
+      })
+    .then(data => {
+      console.log('Data:', data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
 </script>
 {% endblock content %}

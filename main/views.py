@@ -1,3 +1,5 @@
+import json
+from django.http import JsonResponse
 import datetime
 from django.utils.html import strip_tags
 from django.views.decorators.csrf import csrf_exempt
@@ -123,7 +125,7 @@ def add_flower_entry_ajax(request):
     description = strip_tags(request.POST.get("description")) # strip HTML tags!
     flower = strip_tags(request.POST.get("flower")) # strip HTML tags!
     quantity = request.POST.get("quantity")
-
+ 
     new_flower = Shop(
         name=name, 
         price=price,
@@ -134,3 +136,21 @@ def add_flower_entry_ajax(request):
     new_flower.save()
 
     return HttpResponse(b"CREATED", status=201)
+
+@csrf_exempt
+def create_mood_flutter(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+        new_mood = Shop.objects.create(
+            user=request.user,
+            mood=data["mood"],
+            mood_intensity=int(data["mood_intensity"]),
+            feelings=data["feelings"]
+        )
+
+        new_mood.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
